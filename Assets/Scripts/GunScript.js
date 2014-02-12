@@ -1,23 +1,25 @@
-﻿var cameraObject : GameObject;
-@HideInInspector
-var targetXRotation : float;
-@HideInInspector
-var targetYRotation : float;
-@HideInInspector
-var targetXRotationV : float;
-@HideInInspector
-var targetYRotationV : float;
+﻿//var mainCamera : GameObject;
+var magCapacity : int = 16;
+var bullets : int = 16;
+var mags : int = 6;
 
-var rotateSpeed : float = 0.2;
-
-var holdHeight : float = - 0.5;
-var holdSide : float = 0.5;
-
-function Start () {
-
-}
-
-function Update () 
-{
-	transform.position = cameraObject.transform.position + Quaternion.Euler(0, targetYRotation, 0) * Vector3(holdSide, holdHeight, 0);
+function Update () {
+	//to be used later to add move the gun more realistically
+	//transform.rotation = Quaternion.Euler(mainCamera.GetComponent(MouseLook).currentxRotation ,mainCamera.GetComponent(MouseLook).currentyRotation ,0 );
+	var hit : RaycastHit;
+	
+	if (Input.GetButtonDown("Fire1"))
+	{	
+		bullets -= 1;
+		//checks if the shot hit any object & disallows shooting with an empty mag
+		if (Physics.Raycast(transform.position, transform.right) && bullets > -1) 
+			print ("Hit");
+		else
+			print("no hit");
+	}
+	
+	if (Input.GetButtonDown("Reload") && mags > -1) {
+		bullets = magCapacity;
+		mags -= 1;
+		}
 }
