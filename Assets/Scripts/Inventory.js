@@ -6,10 +6,16 @@ function Update () {
 	if (Input.GetKeyDown ("e"))
 		{
 			coatOpen = true;
+			Screen.lockCursor = false;
+			Screen.showCursor = true;
+			Time.timeScale = .5;
 		}
 	if (Input.GetKeyUp ("e"))
 		{
 			coatOpen = false;
+			Screen.lockCursor = true;
+			Screen.showCursor = false;
+			Time.timeScale = 1;
 		}
 }
 

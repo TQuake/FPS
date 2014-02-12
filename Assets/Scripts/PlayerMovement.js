@@ -1,8 +1,8 @@
 ﻿//on ground movement variables
 //Acceleration
-private var acceleration : float;
-var walkAcceleration : float = 5;
-var runAcceleration : float = 10;
+var acceleration : float;
+var walkAcceleration : float = 1500;
+var runAcceleration : float = 3000;
 //Deceleration
 var walkDeacceleration : float = 0;
 var walkAccelAirRation : float = .25;
@@ -46,30 +46,30 @@ function Update ()
 	transform.rotation = Quaternion.Euler(0, cameraObject.GetComponent(MouseLook).currentyRotation, 0);
 	//Adding walking force
 	if (grounded)
-		rigidbody.AddRelativeForce(Input.GetAxis("Horizontal") * walkAcceleration * Time.deltaTime, 0, Input.GetAxis("Vertical") * walkAcceleration * Time.deltaTime);
+		rigidbody.AddRelativeForce(Input.GetAxis("Horizontal") * acceleration * Time.deltaTime, 0, Input.GetAxis("Vertical") * acceleration * Time.deltaTime);
 	else
-		rigidbody.AddRelativeForce(Input.GetAxis("Horizontal") * walkAcceleration * walkAccelAirRation * Time.deltaTime, 0, Input.GetAxis("Vertical") * walkAcceleration * walkAccelAirRation * Time.deltaTime);
+		rigidbody.AddRelativeForce(Input.GetAxis("Horizontal") * acceleration * walkAccelAirRation * Time.deltaTime, 0, Input.GetAxis("Vertical") * acceleration * walkAccelAirRation * Time.deltaTime);
 	//Running
 	if (Input.GetButton ("Run") && grounded){
 		maxSpeed = maxRunSpeed;
-		walkAcceleration = runAcceleration;
-	else
-		maxSpeed = maxWalkSpeed
-		
+		acceleration = runAcceleration;
+		}
+	else{
+		maxSpeed = maxWalkSpeed;
+		acceleration = walkAcceleration;
 	}
-		
-	
 	//Jumping
 	if (Input.GetButtonDown("Jump") && grounded)
 		rigidbody.AddForce(0, jumpVelocity, 0);
 		
 	//walking effect
+	//This shit is terrible and unimplimented right now. Need to make the keycodes map to customizable imputs e.g. Run earlier in the script
 	if (Input.GetKeyDown ("w") || Input.GetKeyDown ("s")||Input.GetKeyDown ("a")||Input.GetKeyDown ("d"))
 		{
 			audio.clip = walkEffect;
 			audio.Play();
 		}
-	if (Input.GetKeyUp ("w") && !Input.GetKey ("s") && !Input.GetKey ("a") && !Input.GetKey ("d") ||Input.GetKey ("s")||Input.GetKeyUp ("a")||Input.GetKeyUp ("d"))
+	if (Input.GetKeyUp ("w") ||Input.GetKey ("s")||Input.GetKeyUp ("a")||Input.GetKeyUp ("d"))
 		{
 			audio.clip = walkEffect;
 			audio.Pause();
